@@ -26,9 +26,11 @@ To load the aligned dataset into the model for training, we first perform the da
 follows:
 1) Load the 5 different fold_frontal_data.txt files
 2) Loop through each fold and concatenate each ‘user_id’, ‘face_id’, ‘original_image’ into a link which identifies the absolute path of where each image is located and change gender label m and f into binary form (0 for f, 1 for m), E.g.
+
 ![image](https://github.com/user-attachments/assets/a85b4765-8164-4942-9f49-20de79bc654c)
 
 - CelebA Dataset
+
 ![image](https://github.com/user-attachments/assets/7e676779-f398-41c5-a7be-055fa31bda01)
 
 # Libraries
@@ -69,47 +71,57 @@ After training the model, we evaluated its accuracy with model.evaluate() and ob
 
 # Comparison of Model Architectures
 The Resnet50V2 model seemed to have the highest accuracy/val_accuracy and lowest loss/val_loss values out of the 3 models tested.
+
 ![image](https://github.com/user-attachments/assets/ddf3fa2f-dad3-40e3-86db-fb011795ba5e)
 
 We can see from the table above that in all categories, Resnet50V2 is the clear choice of model to use with the highest accuracy/val_accuracy values and lowest loss/val_loss values, this agrees with our previous observation as well.
 The Resnet50V2 model will then be used in our later experiments.
+
 ![image](https://github.com/user-attachments/assets/d8475d25-95d1-41ab-a047-370316ed2464)
 
 # Hyperparameter Tuning
 - Batch Size Tuning
 For batch size tuning, the 6 batch size values of [1, 4, 8, 16, 32, 64] were tested and evaluated.
 We observed from testing that batch sizes of 16, 32 and 64 have roughly equal validation accuracy however by the total average of val_accuracy obtained, batch size of 32 was determined as the best batch size to use.
+
 ![image](https://github.com/user-attachments/assets/4ee41d58-5816-4da0-9ffc-576f8d8faa0a)
 
 - Learning Rate Tuning
 Utilizing the best batch size of 32 for learning rate tuning, the 4 learning rate values of [0.1, 0.001, 0.0003, 0.00001] were tested and evaluated.
 We observed from testing that the learning rate of 0.001 / 1e3 produces the best validation accuracy by a decent margin, we thus determined 0.001 as the best learning rate to use.
+
 ![image](https://github.com/user-attachments/assets/f4890f6d-79ec-44ee-8212-ec45b90e6989)
 
 - Number of Neurons Tuning
 Utilizing the previously tuned batch sizes and learning rates for the tuning of the number of neurons at each fully connected layer, the 4 sets of values described by table 1 were tested and evaluated. 
 We observed from testing that the 3rd set of number of neurons produces the best validation accuracy by a decent margin, we thus determined 1024, 512 and 256 as the best number of neurons to be used at each fully connected layer respectively.
+
 ![image](https://github.com/user-attachments/assets/0bc2f464-2b75-47bb-a485-dc5f72c094ba)
 
 - Drop Out Rate Tuning
 For dropout rate tuning, the 6 dropout rate values of [0, 0.1, 0.2, 0.3, 0.4, 0.5] were tested and evaluated for each fully connected layer.
 We observed from testing that the dropout rate of 0.5 for each fully connected layer produces the best validation accuracy by a decent margin, we determined 0.5 to be the best learning rate to use at each fc layer.
+
 ![image](https://github.com/user-attachments/assets/13fd8b09-3a47-46fe-b186-d7f1d03082b0)
 
 # Experiments and Results
 With our tuned parameters and selected model, we performed the gender classification task once more.
 The comparison will be between 2 models with the same tuned hyperparameters, however, one will utilize the pretrained weights learned from the CelebA dataset and one without.
 The experiments will run for the same 20 epochs as per the previous models. The tuned parameters and comparison results are shown below:
+
 ![image](https://github.com/user-attachments/assets/d3f17948-fb25-4e23-ab44-32f835b9c43d)
+
 ![image](https://github.com/user-attachments/assets/86737e0d-8a5f-4d5e-950e-aef9533affea)
 
 During the comparisons, the pre-training with CelebA produces higher accuracy/val_accuracy compared to that of the initial untuned model and the tuned model without pretraining.
 However, we observe that the training accuracy of the tuned model is significantly lower than that of the initial model, this could be explained by the use of dropouts for the tuned models which indicates a higher variance at some of the fully connected layers as compared to the initial evaluation model without dropout. 
 Overall, with tuning and pretraining, we are able to obtain an approximate 2% increase in performance.
+
 ![image](https://github.com/user-attachments/assets/5040142b-af99-4f89-bacc-5aabf6bbd332)
 
 # Demo Experiment
 In this demo experiment, we put our best model to the test against 10 random faces from the internet and see whether it can predict their gender correctly. The result from this experiment is as follows:
+
 ![image](https://github.com/user-attachments/assets/0d22e11b-6c28-4fb2-b973-8f6f5722eb23)
 
 # Future Considerations
